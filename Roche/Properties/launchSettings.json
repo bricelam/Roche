@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Roche (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Roche (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

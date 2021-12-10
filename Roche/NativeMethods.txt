@@ -1,0 +1,8 @@
+﻿HWND_TOP
+WINDOW_STYLE
+
+GetDpiForWindow
+GetWindowLong
+SetWindowLong
+SetWindowPos
+SetWindowText
