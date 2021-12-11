@@ -43,6 +43,7 @@
                         <TextBlock Grid.Row="2" Margin="0,24,0,0">2.</TextBlock>
                         <TextBlock Grid.Row="2" Margin="8,24,0,0" Grid.Column="1" TextWrapping="Wrap">Browse to the file below so we can unzip it and configure the server.</TextBlock>
                     </Grid>
+                    <!-- TODO: Use a modern "drop files here" UI -->
                     <Grid Margin="0,24,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -66,7 +67,7 @@
                     HorizontalAlignment="Stretch"
                     Style="{ThemeResource AccentButtonStyle}"
                     Click="HandleNextClick">
-                Next
+                Install
             </Button>
         </Grid>
     </Grid>

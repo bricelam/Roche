@@ -13,10 +13,6 @@ namespace Roche
 {
     public sealed partial class DownloadPage : Page
     {
-        private string _destination = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".roche");
-
         public DownloadPage()
             => InitializeComponent();
 
@@ -34,9 +30,7 @@ namespace Roche
         }
 
         private void HandleServerFileDragOver(object sender, DragEventArgs e)
-        {
-            e.AcceptedOperation = DataPackageOperation.Link;
-        }
+            => e.AcceptedOperation = DataPackageOperation.Link;
 
         private async void HandleBrowseClick(object sender, RoutedEventArgs e)
         {
@@ -56,10 +50,10 @@ namespace Roche
 
         private void HandleNextClick(object sender, RoutedEventArgs e)
         {
-            // TODO: Progress
-            ZipFile.ExtractToDirectory(_serverFileTextBox.Text, _destination);
+            // TODO: Show progress
+            ZipFile.ExtractToDirectory(_serverFileTextBox.Text, Paths.ServerDir);
 
-            Frame.Navigate(typeof(NewWorldPage));
+            Frame.Navigate(typeof(CreateWorldPage));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.UI.Xaml;
 
 namespace Roche
@@ -16,21 +17,18 @@ namespace Roche
             _shellWindow = new ShellWindow();
             _shellWindow.Activate();
 
-            var serverDir = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                @".roche");
-
-            if (!Directory.Exists(serverDir))
+            if (!Directory.Exists(Paths.ServerDir))
             {
                 _shellWindow.Frame.Navigate(typeof(WelcomePage));
             }
-            else if (!Directory.Exists(Path.Combine(serverDir, "worlds")))
+            else if (!Directory.Exists(Paths.WorldsDir)
+                || !Directory.EnumerateFileSystemEntries(Paths.WorldsDir).Any())
             {
-                _shellWindow.Frame.Navigate(typeof(NewWorldPage));
+                _shellWindow.Frame.Navigate(typeof(CreateWorldPage));
             }
             else
             {
-                _shellWindow.Frame.Navigate(typeof(ConfigurationPage));
+                _shellWindow.Frame.Navigate(typeof(ServerSettingsPage));
             }
         }
     }

@@ -13,16 +13,14 @@
     <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="ConfigurationPage.xaml" />
+    <None Remove="CreateWorldPage.xaml" />
     <None Remove="MainPage.xaml" />
-    <None Remove="NewWorldPage.xaml" />
+    <None Remove="ServerSettingsPage.xaml" />
     <None Remove="WelcomePage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="7.1.2" />
-    <!--<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
-    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Markdown" Version="7.1.2" />-->
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.196" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.619-beta" />
@@ -46,7 +44,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ConfigurationPage.xaml">
+    <Page Update="ServerSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -56,7 +54,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="NewWorldPage.xaml">
+    <Page Update="CreateWorldPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

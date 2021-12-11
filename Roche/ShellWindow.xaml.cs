@@ -38,12 +38,12 @@ namespace Roche
                 SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
 
 
-            //// Remove minimize and maximize buttons
-            //var style = (WINDOW_STYLE)GetWindowLong(handle, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
-            //SetWindowLong(
-            //    handle,
-            //    WINDOW_LONG_PTR_INDEX.GWL_STYLE,
-            //    (int)(style & ~(WINDOW_STYLE.WS_MINIMIZEBOX | WINDOW_STYLE.WS_MAXIMIZEBOX)));
+            // Remove minimize and maximize buttons
+            var style = (WINDOW_STYLE)GetWindowLong(handle, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+            SetWindowLong(
+                handle,
+                WINDOW_LONG_PTR_INDEX.GWL_STYLE,
+                (int)(style & ~(WINDOW_STYLE.WS_MINIMIZEBOX | WINDOW_STYLE.WS_MAXIMIZEBOX)));
         }
 
         public Frame Frame
