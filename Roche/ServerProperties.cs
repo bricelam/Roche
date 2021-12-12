@@ -12,7 +12,7 @@ namespace Roche
         public LevelType LevelType { get; set; } = LevelType.Default;
         public string LevelSeed { get; set; }
         public Difficulty Difficulty { get; set; } = Difficulty.Easy;
-        public PlayerPermissionLevel DefaultPlayerPermissionLevel { get; set; } = PlayerPermissionLevel.Member;
+        public PermissionLevel DefaultPlayerPermissionLevel { get; set; } = PermissionLevel.Member;
         public int TickDistance { get; set; } = 4;
         public bool AllowCheats { get; set; }
         public bool OnlineMode { get; set; } = true;
@@ -106,15 +106,15 @@ namespace Roche
                         switch (value)
                         {
                             case "visitor":
-                                properties.DefaultPlayerPermissionLevel = PlayerPermissionLevel.Visitor;
+                                properties.DefaultPlayerPermissionLevel = PermissionLevel.Visitor;
                                 break;
 
                             case "member":
-                                properties.DefaultPlayerPermissionLevel = PlayerPermissionLevel.Member;
+                                properties.DefaultPlayerPermissionLevel = PermissionLevel.Member;
                                 break;
 
                             case "operator":
-                                properties.DefaultPlayerPermissionLevel = PlayerPermissionLevel.Operator;
+                                properties.DefaultPlayerPermissionLevel = PermissionLevel.Operator;
                                 break;
                         }
                         break;
@@ -169,9 +169,9 @@ namespace Roche
                 },
                 ["default-player-permission-level"] = DefaultPlayerPermissionLevel switch
                 {
-                    PlayerPermissionLevel.Visitor => "visitor",
-                    PlayerPermissionLevel.Member => "member",
-                    PlayerPermissionLevel.Operator => "operator",
+                    PermissionLevel.Visitor => "visitor",
+                    PermissionLevel.Member => "member",
+                    PermissionLevel.Operator => "operator",
                     _ => null
                 },
                 ["tick-distance"] = TickDistance.ToString(CultureInfo.InvariantCulture),
@@ -192,9 +192,9 @@ namespace Roche
                         && line[0] != '#')
                     {
                         var key = line.Split('=', 2)[0];
-                        var value = properties[key];
 
-                        if (value != null)
+                        if (properties.TryGetValue(key, out var value)
+                            && value != null)
                             line = key + "=" + value;
 
                         writer.WriteLine(line);

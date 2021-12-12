@@ -1,6 +1,6 @@
 ﻿namespace Roche
 {
-    public enum PlayerPermissionLevel
+    public enum PermissionLevel
     {
         Visitor,
         Member,

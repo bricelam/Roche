@@ -26,12 +26,6 @@
                            TextWrapping="Wrap">
                     Dedicated Server
                 </TextBlock>
-                <TextBlock Margin="0,0,0,12"
-                           FontSize="20"
-                           FontWeight="SemiBold"
-                           TextWrapping="Wrap">
-                    Bedrock level
-                </TextBlock>
                 <TextBlock Grid.Row="1" TextWrapping="Wrap">TODO</TextBlock>
             </Grid>
         </ScrollViewer>

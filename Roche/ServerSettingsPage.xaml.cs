@@ -22,16 +22,16 @@ namespace Roche
         };
 
         // TODO: Display icons
-        public List<PlayerPermissionLevel> PlayerPermissionLevels = new()
+        public List<PermissionLevel> PlayerPermissionLevels = new()
         {
             // 👋 Visitor
-            PlayerPermissionLevel.Visitor,
+            PermissionLevel.Visitor,
 
             // ⭐ Member
-            PlayerPermissionLevel.Member,
+            PermissionLevel.Member,
 
             // 👑 Operator
-            PlayerPermissionLevel.Operator
+            PermissionLevel.Operator
         };
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -6,7 +6,7 @@ namespace Roche
 {
     public sealed partial class MainPage : Page
     {
-        MinecraftServer _server;
+        Server _server;
 
         public MainPage()
             => InitializeComponent();
@@ -20,7 +20,7 @@ namespace Roche
         {
             base.OnNavigatedTo(e);
 
-            _server = MinecraftServer.Start(Paths.ServerPath);
+            _server = Server.Start(Paths.ServerPath);
         }
 
         private void HandleStopClick(object sender, RoutedEventArgs e)
