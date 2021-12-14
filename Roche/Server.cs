@@ -1,47 +1,81 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Roche
 {
-    internal class Server
+    public class Server
     {
         Process _process;
+        TaskCompletionSource _startCompletionSource;
         Thread _listenThread;
-        string _version;
-        ObservableCollection<Player> _players = new();
 
-        Server(Process process)
-            => _process = process;
-
-        public string Version
-            => _version;
-
-        public IEnumerable<Player> Players
-            => _players;
-
-        public static Server Start(string path)
+        public Server(string path)
         {
-            // TODO: Stop on exit
-            var server = new Server(
-                Process.Start(
-                    new ProcessStartInfo
+            _process = new Process
+            {
+                StartInfo = new()
+                {
+                    FileName = path,
+                    //UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
+                }
+            };
+            _listenThread = new Thread(
+                () =>
+                {
+                    string message;
+                    while ((message = _process.StandardOutput.ReadLine()) != null)
                     {
-                        FileName = path,
-                        //UseShellExecute = false,
-                        CreateNoWindow = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardInput = true,
-                    }));
-            server.WaitForStart();
+                        // Strip timestamp and level
+                        if (message.Length > 0
+                            && message[0] == '[')
+                        {
+                            message = message[31..];
+                        }
 
-            return server;
+                        if (message == "Server started.")
+                        {
+                            _startCompletionSource?.SetResult();
+                            _startCompletionSource = null;
+                        }
+                        else if (message.StartsWith("Player connected: "))
+                        {
+                            PlayerConnected.Invoke(this, GetPlayerEventArgs(message[18..]));
+                        }
+                        else if (message.StartsWith("Player disconnected: "))
+                        {
+                            PlayerDisconnected.Invoke(this, GetPlayerEventArgs(message[21..]));
+                        }
+                    }
+
+                    static PlayerEventArgs GetPlayerEventArgs(string value)
+                    {
+                        var index = value.IndexOf(", xuid: ");
+
+                        return new PlayerEventArgs
+                        {
+                            Name = value[..index],
+                            Xuid = value[(index + 8)..]
+                        };
+                    }
+                });
         }
 
-        // TODO: Whitelist, Players(list, op, deop, kick)
+        public event EventHandler<PlayerEventArgs> PlayerConnected;
+        public event EventHandler<PlayerEventArgs> PlayerDisconnected;
+
+        public Task StartAsync()
+        {
+            _process.Start();
+            _startCompletionSource = new TaskCompletionSource();
+            _listenThread.Start();
+
+            return _startCompletionSource.Task;
+        }
 
         public void AllowCheats(bool allow = true)
         {
@@ -57,69 +91,7 @@ namespace Roche
         {
             _process.StandardInput.WriteLine("stop");
             _process.WaitForExit();
-        }
-
-        void WaitForStart()
-        {
-            foreach (var message in ReadLogLine(_process.StandardOutput))
-            {
-                if (message.StartsWith("Version "))
-                {
-                    _version = message[8..];
-                }
-                else if (message == "Server started.")
-                {
-                    _listenThread = new Thread(ListenToLog);
-                    _listenThread.Start();
-                    break;
-                }
-            }
-        }
-
-        void ListenToLog()
-        {
-            foreach (var message in ReadLogLine(_process.StandardOutput))
-            {
-                if (message.StartsWith("Player connected: "))
-                {
-                    var (name, xuid) = ParsePlayer(message[18..]);
-                    _players.Add(
-                        new Player
-                        {
-                            Name = name,
-                            Xuid = xuid
-                        });
-                }
-                else if (message.StartsWith("Player disconnected: "))
-                {
-                    var (name, xuid) = ParsePlayer(message[21..]);
-                    var player = _players.Where(p => p.Xuid == xuid && p.Name == name).FirstOrDefault();
-                    _players.Remove(player);
-                }
-            }
-
-            static (string name, string xuid) ParsePlayer(string value)
-            {
-                var index = value.IndexOf(", xuid: ");
-
-                return (value[..index], value[(index + 8)..]);
-            }
-        }
-
-        static IEnumerable<string> ReadLogLine(StreamReader reader)
-        {
-            string message;
-            while ((message = reader.ReadLine()) != null)
-            {
-                // Strip timestamp and level
-                if (message.Length > 0
-                    && message[0] == '[')
-                {
-                    message = message[31..];
-                }
-
-                yield return message;
-            }
+            _listenThread.Join();
         }
     }
 }

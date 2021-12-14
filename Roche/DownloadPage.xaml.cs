@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -48,10 +47,13 @@ namespace Roche
             _serverFileTextBox.Text = file.Path;
         }
 
-        private void HandleNextClick(object sender, RoutedEventArgs e)
+        private async void HandleExtractClick(object sender, RoutedEventArgs e)
         {
-            // TODO: Show progress
-            ZipFile.ExtractToDirectory(_serverFileTextBox.Text, Paths.ServerDir);
+            _extractButton.IsEnabled = false;
+            _extractButton.Content = "Extracting...";
+
+            var serverFile = _serverFileTextBox.Text;
+            await Task.Run(() => ZipFile.ExtractToDirectory(serverFile, Paths.ServerDir));
 
             Frame.Navigate(typeof(CreateWorldPage));
         }

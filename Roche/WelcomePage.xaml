@@ -26,11 +26,19 @@
                     Welcome
                 </TextBlock>
                 <TextBlock Grid.Row="1" TextWrapping="Wrap">
-                    We're gonna install, configure, and run a server for Minecraft: Bedrock Edition.<LineBreak />
+                    So, you wanna start your own Minecraft server, eh? I can help with that.<LineBreak />
                     <LineBreak />
-                    TODO<LineBreak />
+                    We're gonna download, configure, and run the server software. This creates a LAN game that anyone on
+                    your network with the <Bold>Bedrock</Bold> version of Minecraft can connect to. It's like creating a
+                    multiplayer game, except nobody gets disconnected when you stop playing.<LineBreak />
                     <LineBreak />
-                    Let's get started.
+                    I'm not gonna help you get a fancy domain name like <Italic>blockbuster.com</Italic>, and I'm not
+                    gonna help you forward ports and expose your computer to the internet and all its hackers. Save
+                    yourself the trouble, and just use
+                    <Hyperlink NavigateUri="https://www.minecraft.net/realms/bedrock">Minecraft Realms</Hyperlink> for
+                    that instead.<LineBreak />
+                    <LineBreak />
+                    Alright, let's get started.
                 </TextBlock>
             </Grid>
         </ScrollViewer>
@@ -44,8 +52,8 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="2"
                     HorizontalAlignment="Stretch"
-                    Style="{ThemeResource AccentButtonStyle}"
-                    Click="HandleNextClick">
+                    Click="HandleNextClick"
+                    Style="{ThemeResource AccentButtonStyle}">
                 Next
             </Button>
         </Grid>

@@ -1,16 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Roche
 {
-    public class ServerProperties
+    [INotifyPropertyChanged]
+    public partial class ServerProperties
     {
+        [ObservableProperty]
+        string _levelName = "Bedrock level";
+
+        [ObservableProperty]
+        GameMode _gameMode;
+
+        [ObservableProperty]
+        string _levelSeed;
+
         public string ServerName { get; set; } = "Dedicated Server";
-        public string LevelName { get; set; } = "Bedrock level";
-        public GameMode GameMode { get; set; }
-        public LevelType LevelType { get; set; } = LevelType.Default;
-        public string LevelSeed { get; set; }
         public Difficulty Difficulty { get; set; } = Difficulty.Easy;
         public PermissionLevel DefaultPlayerPermissionLevel { get; set; } = PermissionLevel.Member;
         public int TickDistance { get; set; } = 4;
@@ -56,23 +63,6 @@ namespace Roche
 
                             case "adventure":
                                 properties.GameMode = GameMode.Adventure;
-                                break;
-                        }
-                        break;
-
-                    case "level-type":
-                        switch (value)
-                        {
-                            case "flat":
-                                properties.LevelType = LevelType.Flat;
-                                break;
-
-                            case "legacy":
-                                properties.LevelType = LevelType.Legacy;
-                                break;
-
-                            case "default":
-                                properties.LevelType = LevelType.Default;
                                 break;
                         }
                         break;
@@ -151,13 +141,6 @@ namespace Roche
                     GameMode.Adventure => "adventure",
                     _ => null
                 },
-                ["level-type"] = LevelType switch
-                {
-                    LevelType.Flat => "flat",
-                    LevelType.Legacy => "legacy",
-                    LevelType.Default => "default",
-                    _ => null
-                },
                 ["level-seed"] = LevelSeed,
                 ["difficulty"] = Difficulty switch
                 {
@@ -197,10 +180,10 @@ namespace Roche
                             && value != null)
                             line = key + "=" + value;
 
-                        writer.WriteLine(line);
-
                         properties.Remove(key);
                     }
+
+                    writer.WriteLine(line);
                 }
             }
 

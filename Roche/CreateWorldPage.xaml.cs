@@ -1,6 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System.Collections.Generic;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Collections.Generic;
 
 namespace Roche
 {
@@ -16,17 +16,9 @@ namespace Roche
             GameMode.Adventure
         };
 
-        public List<LevelType> LevelTypes = new()
-        {
-            LevelType.Flat,
+        public LevelProperties Properties { get; } = new LevelProperties();
 
-            // TODO: Display "Infinite"
-            LevelType.Default
-        };
-
-        public LevelSettings Settings { get; } = new LevelSettings();
-
-        private void HandleNextClick(object sender, RoutedEventArgs e)
-            => Frame.Navigate(typeof(ServerSettingsPage), Settings);
+        private void HandleCreateClick(object sender, RoutedEventArgs e)
+            => Frame.Navigate(typeof(ServerSettingsPage), Properties);
     }
 }
