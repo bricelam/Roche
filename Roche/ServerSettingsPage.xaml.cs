@@ -47,11 +47,17 @@ namespace Roche
             base.OnNavigatedTo(e);
         }
 
-        private void HandleStartClick(object sender, RoutedEventArgs e)
+        private async void HandleStartClick(object sender, RoutedEventArgs e)
         {
+            _startButton.IsEnabled = false;
+            _startButton.Content = "Starting...";
+
             Properties.Save(Paths.ServerPropertiesPath);
 
-            Frame.Navigate(typeof(MainPage));
+            var server = new Server(Paths.ServerPath);
+            await server.StartAsync();
+
+            Frame.Navigate(typeof(MainPage), server);
         }
     }
 }

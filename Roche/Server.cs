@@ -78,14 +78,26 @@ namespace Roche
         }
 
         public void AllowCheats(bool allow = true)
-        {
-            _process.StandardInput.WriteLine("changesetting allow-cheats " + (allow ? "true" : "false"));
-        }
+            => _process.StandardInput.WriteLine("changesetting allow-cheats " + (allow ? "true" : "false"));
 
         public void SetDifficulty(Difficulty difficulty)
-        {
-            _process.StandardInput.WriteLine("changesetting difficulty " + (int)difficulty);
-        }
+            => _process.StandardInput.WriteLine("changesetting difficulty " + (int)difficulty);
+
+        public void MakeOperator(string player)
+            => _process.StandardInput.WriteLine("op " + player);
+
+        public void MakeMember(string player)
+            => _process.StandardInput.WriteLine("deop " + player);
+
+        public void SetGameMode(string player, GameMode mode)
+            => _process.StandardInput.WriteLine(
+                "gamemode " + (mode switch
+                {
+                    GameMode.Survival => "survival",
+                    GameMode.Creative => "creative",
+                    GameMode.Adventure => "adventure",
+                    _ => throw new Exception("Unexpected mode: " + mode)
+                }) + " " + player);
 
         public void Stop()
         {

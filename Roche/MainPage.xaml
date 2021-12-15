@@ -4,7 +4,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Roche"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      Name="_page">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -19,7 +20,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Margin="0,0,0,12"
                            FontSize="28"
@@ -32,16 +32,48 @@
                            FontWeight="SemiBold"
                            Text="{x:Bind Properties.LevelName}"
                            TextWrapping="Wrap" />
-                <ItemsControl Grid.Row="2" ItemsSource="{x:Bind Players}" />
-                <StackPanel Grid.Row="3">
-                    <TextBox Header="Started" Text="{x:Bind Started,Mode=OneWay}" />
-                    <ComboBox Margin="0,24,0,0" Header="Difficulty">
-                        <x:String>Peaceful</x:String>
-                        <x:String>Easy</x:String>
-                        <x:String>Normal</x:String>
-                        <x:String>Hard</x:String>
-                    </ComboBox>
-                    <ToggleSwitch Margin="0,24,0,0" Header="Activate cheats" />
+                <StackPanel Grid.Row="2">
+                    <ComboBox Header="Difficulty"
+                              ItemsSource="{x:Bind Difficulties}"
+                              SelectedItem="{x:Bind Properties.Difficulty,Mode=TwoWay}"
+                              SelectionChanged="HandleDifficultyChanged" />
+                    <ToggleSwitch Margin="0,24,0,0"
+                                  Header="Activate cheats"
+                                  IsOn="{x:Bind Properties.AllowCheats,Mode=TwoWay}"
+                                  Toggled="HandleAllowCheatsToggled" />
+                    <ItemsControl Margin="0,24,0,0" ItemsSource="{x:Bind Players}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <!-- TODO: Show gamerpic -->
+                                    <PersonPicture Width="32" />
+                                    <TextBlock Margin="12,0,0,0"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding}" />
+                                    <CommandBar>
+                                        <CommandBar.SecondaryCommands>
+                                            <AppBarButton Command="{Binding MakeOperatorCommand,ElementName=_page}"
+                                                          CommandParameter="{Binding}"
+                                                          Label="Operator" />
+                                            <AppBarButton Command="{Binding MakeMemberCommand,ElementName=_page}"
+                                                          CommandParameter="{Binding}"
+                                                          Label="Member" />
+                                            <AppBarSeparator />
+                                            <AppBarButton Command="{Binding SetCreativeCommand,ElementName=_page}"
+                                                          CommandParameter="{Binding}"
+                                                          Label="Creative" />
+                                            <AppBarButton Command="{Binding SetSurvivalCommand,ElementName=_page}"
+                                                          CommandParameter="{Binding}"
+                                                          Label="Survival" />
+                                            <AppBarButton Command="{Binding SetAdventureCommand,ElementName=_page}"
+                                                          CommandParameter="{Binding}"
+                                                          Label="Adventrue" />
+                                        </CommandBar.SecondaryCommands>
+                                    </CommandBar>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

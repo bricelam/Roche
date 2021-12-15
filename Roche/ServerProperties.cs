@@ -11,13 +11,9 @@ namespace Roche
         [ObservableProperty]
         string _levelName = "Bedrock level";
 
-        [ObservableProperty]
-        GameMode _gameMode;
-
-        [ObservableProperty]
-        string _levelSeed;
-
         public string ServerName { get; set; } = "Dedicated Server";
+        public GameMode GameMode{get;set;}
+        public string LevelSeed { get; set; }
         public Difficulty Difficulty { get; set; } = Difficulty.Easy;
         public PermissionLevel DefaultPlayerPermissionLevel { get; set; } = PermissionLevel.Member;
         public int TickDistance { get; set; } = 4;
