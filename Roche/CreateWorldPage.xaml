@@ -14,7 +14,7 @@
             <Grid Background="{ThemeResource LayerFillColorAltBrush}"
                   BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                   BorderThickness="0,0,0,1"
-                  Padding="24">
+                  Padding="24,0,24,24">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />

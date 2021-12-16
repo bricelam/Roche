@@ -1,8 +1,12 @@
 ﻿HWND_TOP
+ICON_BIG
+ICON_SMALL
 WINDOW_STYLE
+WM_SETICON
 
 GetDpiForWindow
 GetWindowLong
+SendMessage
 SetWindowLong
 SetWindowPos
 SetWindowText
