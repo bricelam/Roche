@@ -43,6 +43,10 @@ namespace Roche
                 Properties.GameMode = world.GameMode;
                 Properties.LevelSeed = world.LevelSeed;
             }
+            else if (e.Parameter is string worldName)
+            {
+                Properties.LevelName = worldName;
+            }
 
             base.OnNavigatedTo(e);
         }
@@ -59,5 +63,8 @@ namespace Roche
 
             Frame.Navigate(typeof(MainPage), server);
         }
+
+        private void HandleWorldChangeClick(object sender, RoutedEventArgs e)
+            => Frame.Navigate(typeof(WorldsPage));
     }
 }
